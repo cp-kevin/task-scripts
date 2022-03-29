@@ -3,5 +3,5 @@
 cat > prod-webuser-mysql-creds/creds.cnf <<EOF
 [client]
 user=${MYSQLUSER}
-pass=${MYSQLPASS}
+password=${MYSQLPASS}
 EOF
