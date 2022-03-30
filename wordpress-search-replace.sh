@@ -1,5 +1,5 @@
 #!/bin/sh
-set -v
+set -x
 
 export TARGETIP=$(cat reseed-direction/target_ip)
 export SOURCEURL=$(cat site-urls/source_site_url)
