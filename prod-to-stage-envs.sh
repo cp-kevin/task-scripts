@@ -8,3 +8,4 @@ echo ${SOURCEMYSQLPASS} > reseed-direction/source_mysql_pass
 echo ${TARGETMYSQLPASS} > reseed-direction/target_mysql_pass
 echo ${SOURCEIP} > reseed-direction/source_ip
 echo ${TARGETIP} > reseed-direction/target_ip
+echo ${TARGETAADSSO} > reseed-direction/target_aadsso
