@@ -9,6 +9,6 @@ rsync -e "ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer" --progre
 # ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "mv ${WEBROOT} ${WEBROOT}_old"
 # ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "mv ${WEBROOT}_new ${WEBROOT}"
 # Store variable in file because of the delimiter causing issues with the next command
-ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "echo $(grep DB_NAME wp-config.php | cut --delimiter=\' -f4) > OLDDBNAME"
+ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "echo $(grep DB_NAME ${WEBROOT}_old/wp-config.php | cut -d \' -f4) > OLDDBNAME"
 # Use of single quotes here is intentional to allow the use of the target's variables
 ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} 'export $(cat OLDDBNAME); mysql --defaults-extra-file=/home/deployer/mysql_creds.cnf -h 127.0.0.1 -P 6033 -e "DROP DATABASE ${OLDDBNAME};"; rm /home/deployer/OLDDBNAME; rm /home/deployer/mysql_creds.cnf'
