@@ -1,7 +1,6 @@
 #!/bin/sh
 
 export TARGETIP=$(cat reseed-direction/target_ip | openssl enc -d -aes-256-ctr -pbkdf2 -a -base64 -pass pass:${ENCRYPTPASS})
-export OLDDBNAME=$(cat www-old-info/old_db_name)
 rsync -e "ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer" deployer@${TARGETIP}:${WEBROOT}/wp-config.php ./
 grep DB_NAME wp-config.php | cut -d \' -f4 > target_db_name
 export TARGETOLDDBNAME=$(cat target_db_name)
