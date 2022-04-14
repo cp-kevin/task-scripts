@@ -14,7 +14,7 @@
 # ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "echo ${TARGETAADSSO} | base64 -d > target-aadsso"
 # ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "wp --path=${WEBROOT}_new --url=${TARGETURL} --skip-themes --skip-plugins option add aadsso_settings < target-aadsso; rm target-aadsso"
 
-set +x
+set -x
 
 export TARGETIP=$(cat reseed-direction/target_ip | openssl enc -d -aes-256-ctr -pbkdf2 -a -base64 -pass pass:${ENCRYPTPASS})
 export SOURCEPREFIX=$(cat reseed-direction/source_prefix)
