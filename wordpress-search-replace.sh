@@ -36,6 +36,6 @@ for SITE in $(cat site-urls/site_urls); do
     ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "wp --path=${WEBROOT}_new --url=${SITE} search-replace --regex '^${SOURCEURLREGEX}$' ${TARGETURL}"
     ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "wp --path=${WEBROOT}_new --url=${TARGETURL} search-replace https://${SOURCEURL} https://${TARGETURL}"
     ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "wp --path=${WEBROOT}_new --url=${TARGETURL} search-replace http://${SOURCEURL} http://${TARGETURL}"
-    ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "wp --path=${WEBROOT}_new --url=${TARGETURL} elementor replace_urls https://${SOURCEURL} https://${TARGETURL}"
+    ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "wp --path=${WEBROOT}_new --url=${TARGETURL} elementor replace_urls https://${SOURCEURL} https://${TARGETURL}" || continue
     ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "wp --path=${WEBROOT}_new --url=${TARGETURL} elementor replace_urls http://${SOURCEURL} http://${TARGETURL}"
 done
