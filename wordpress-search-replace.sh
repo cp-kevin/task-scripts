@@ -19,6 +19,7 @@ set -x
 export TARGETIP=$(cat reseed-direction/target_ip | openssl enc -d -aes-256-ctr -pbkdf2 -a -base64 -pass pass:${ENCRYPTPASS})
 export SOURCEPREFIX=$(cat reseed-direction/source_prefix)
 export TARGETPREFIX=$(cat reseed-direction/target_prefix)
+cat site-urls/site_urls
 while read -r SITE; do
     if [ -s reseed-direction/source_prefix ]; then
         export SOURCEURL=${SOURCEPREFIX}.${SITE}
@@ -32,9 +33,9 @@ while read -r SITE; do
     fi
     export SOURCEURLREGEX=$(echo ${SOURCEURL} | sed 's/\./\\\./g')
 
-    ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "wp --path=${WEBROOT}_new --url=${SITE} search-replace --regex '^${SOURCEURLREGEX}$' ${TARGETURL}"
-    ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "wp --path=${WEBROOT}_new --url=${TARGETURL} search-replace https://${SOURCEURL} https://${TARGETURL}"
-    ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "wp --path=${WEBROOT}_new --url=${TARGETURL} search-replace http://${SOURCEURL} http://${TARGETURL}"
+    # ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "wp --path=${WEBROOT}_new --url=${SITE} search-replace --regex '^${SOURCEURLREGEX}$' ${TARGETURL}"
+    # ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "wp --path=${WEBROOT}_new --url=${TARGETURL} search-replace https://${SOURCEURL} https://${TARGETURL}"
+    # ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "wp --path=${WEBROOT}_new --url=${TARGETURL} search-replace http://${SOURCEURL} http://${TARGETURL}"
     # ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "wp --path=${WEBROOT}_new --url=${TARGETURL} elementor replace_urls https://${SOURCEURL} https://${TARGETURL}" || continue
     # ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "wp --path=${WEBROOT}_new --url=${TARGETURL} elementor replace_urls http://${SOURCEURL} http://${TARGETURL}"
 done < site-urls/site_urls
