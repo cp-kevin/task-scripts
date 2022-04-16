@@ -36,6 +36,7 @@ for SITE in $(cat site-urls/site_urls); do
     ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "wp --path=${WEBROOT}_new --url=${SITE} search-replace --regex '^${SOURCEURLREGEX}$' ${TARGETURL}"
     ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "wp --path=${WEBROOT}_new --url=${TARGETURL} search-replace https://${SOURCEURL} https://${TARGETURL}"
     ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "wp --path=${WEBROOT}_new --url=${TARGETURL} search-replace http://${SOURCEURL} http://${TARGETURL}"
+    # Allows concourse task to continue when it runs into an error if elementor is not installed
     ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "wp --path=${WEBROOT}_new --url=${TARGETURL} elementor replace_urls https://${SOURCEURL} https://${TARGETURL}" || continue
     ssh -o StrictHostKeyChecking=no -i deployer-ssh-key/deployer deployer@${TARGETIP} "wp --path=${WEBROOT}_new --url=${TARGETURL} elementor replace_urls http://${SOURCEURL} http://${TARGETURL}"
 done
